@@ -5,6 +5,7 @@ import { ApolloServer } from "apollo-server-express";
 import { buildSchema } from "type-graphql";
 import { PingResolver } from "./resolvers/PingResolver";
 import { UserResolver } from "./resolvers/UserResolver";
+import { ProductResolver } from "./resolvers/ProductResolver";
 import { createPostgresConnection } from "./database";
 import { verify } from "jsonwebtoken";
 import { User } from "./models/User.model";
@@ -53,7 +54,7 @@ import cookieParser from "cookie-parser";
   try {
     apolloServer = new ApolloServer({
       schema: await buildSchema({
-        resolvers: [PingResolver, UserResolver],
+        resolvers: [PingResolver, UserResolver, ProductResolver],
       }),
       context: ({ req, res }) => ({ req, res }),
     });

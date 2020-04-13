@@ -1,5 +1,6 @@
 import { Sequelize, DataTypes } from "sequelize";
 import { User } from "./models/User.model";
+import { Product } from "./models/Product.model";
 
 export const createPostgresConnection = (): void => {
   const database = new Sequelize({
@@ -41,7 +42,44 @@ export const createPostgresConnection = (): void => {
     }
   );
 
+  Product.init(
+    {
+      id: {
+        type: new DataTypes.INTEGER(),
+        autoIncrement: true,
+        primaryKey: true,
+      },
+      name: {
+        type: new DataTypes.STRING(256),
+        allowNull: false,
+        defaultValue: "",
+      },
+      description: {
+        type: new DataTypes.STRING(256),
+        allowNull: false,
+        defaultValue: "",
+      },
+      price: {
+        type: new DataTypes.FLOAT(),
+        allowNull: false,
+        defaultValue: 0,
+      },
+      imagePath: {
+        type: new DataTypes.STRING(256),
+        allowNull: false,
+        defaultValue: "",
+      },
+    },
+    {
+      tableName: "products",
+      sequelize: database,
+    }
+  );
+
   User.sync({ force: true }).then(() => console.log("User table created"));
+  Product.sync({ force: true }).then(() =>
+    console.log("Product table created")
+  );
 
   return;
 };
