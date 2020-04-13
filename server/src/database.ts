@@ -13,7 +13,7 @@ export const createPostgresConnection = (): void => {
   User.init(
     {
       id: {
-        type: DataTypes.INTEGER,
+        type: new DataTypes.INTEGER(),
         autoIncrement: true,
         primaryKey: true,
       },
@@ -29,12 +29,19 @@ export const createPostgresConnection = (): void => {
         type: new DataTypes.STRING(128),
         allowNull: false,
       },
+      tokenVersion: {
+        type: new DataTypes.INTEGER(),
+        allowNull: false,
+        defaultValue: 1,
+      },
     },
     {
       tableName: "users",
       sequelize: database,
     }
   );
+
+  User.sync({ force: true }).then(() => console.log("User table created"));
 
   return;
 };

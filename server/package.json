@@ -37,6 +37,6 @@
   "scripts": {
     "start:server": "nodemon --exec ts-node src/index.ts",
     "start:db": "docker-compose up -d",
-    "start": "ts-node src/index.ts"
+    "start": "concurrently npm:start:*"
   }
 }

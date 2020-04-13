@@ -14,4 +14,7 @@ export class User extends Model<User> {
 
   @Field()
   name!: string;
+
+  @Field()
+  tokenVersion!: number;
 }

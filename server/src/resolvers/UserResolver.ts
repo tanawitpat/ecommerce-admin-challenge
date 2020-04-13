@@ -6,6 +6,7 @@ import {
   ObjectType,
   Field,
   Ctx,
+  Int,
 } from "type-graphql";
 import { compare, hash } from "bcryptjs";
 import { User } from "../models/User.model";
@@ -20,9 +21,6 @@ import {
 class LoginResponse {
   @Field()
   accessToken: String;
-
-  @Field(() => User)
-  user: User;
 }
 
 @Resolver()
@@ -31,6 +29,12 @@ export class UserResolver {
   async users() {
     const users = await User.findAll();
     return users;
+  }
+
+  @Mutation(() => Boolean)
+  async revokeRefreshTokensForUser(@Arg("userId", () => Int) userId: number) {
+    User.increment("tokenVersion", { where: { id: userId } });
+    return true;
   }
 
   @Mutation(() => Boolean)
@@ -79,7 +83,6 @@ export class UserResolver {
 
     return {
       accessToken: createAccessToken(user),
-      user,
     };
   }
 }
