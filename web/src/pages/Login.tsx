@@ -5,29 +5,50 @@ import { Formik } from "formik";
 import { useLoginMutation } from "../generated/graphql";
 import { setAccessToken } from "../accessToken";
 
-interface StyledProps {
+interface Props extends RouteComponentProps {
   className?: string;
 }
 
-type Props = RouteComponentProps & StyledProps;
-
-const validateInput = (values: { email: string; password?: string }) => {
-  const errors: { email?: string; password?: string } = {};
-  if (!values.email) {
-    errors.email = "Required";
-  } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)) {
-    errors.email = "Invalid email address";
-  }
-
-  if (!values.password) {
-    errors.password = "Required";
-  }
-
-  return errors;
-};
-
 export const Login: React.FC<Props> = ({ className, history }) => {
   const [login] = useLoginMutation();
+
+  const onSubmit = async ({
+    email,
+    password,
+  }: {
+    email: string;
+    password: string;
+  }) => {
+    const response = await login({
+      variables: {
+        email,
+        password,
+      },
+    });
+
+    if (response && response.data) {
+      setAccessToken(response.data.login.accessToken);
+      history.push("/products");
+      return;
+    }
+    alert("Email or password is incorrect");
+    return;
+  };
+
+  const validateInput = (values: { email: string; password?: string }) => {
+    const errors: { email?: string; password?: string } = {};
+    if (!values.email) {
+      errors.email = "Required";
+    } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)) {
+      errors.email = "Invalid email address";
+    }
+
+    if (!values.password) {
+      errors.password = "Required";
+    }
+
+    return errors;
+  };
 
   return (
     <div className={className}>
@@ -36,20 +57,8 @@ export const Login: React.FC<Props> = ({ className, history }) => {
         <Formik
           validateOnChange={true}
           initialValues={{ email: "", password: "" }}
-          validate={(values) => validateInput(values)}
-          onSubmit={async ({ email, password }, { setSubmitting }) => {
-            const response = await login({
-              variables: {
-                email,
-                password,
-              },
-            });
-
-            if (response && response.data) {
-              setAccessToken(response.data.login.accessToken);
-            }
-            history.push("/");
-          }}
+          validate={validateInput}
+          onSubmit={onSubmit}
         >
           {({
             values,
