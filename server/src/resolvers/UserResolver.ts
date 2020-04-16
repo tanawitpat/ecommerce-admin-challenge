@@ -8,14 +8,14 @@ import {
   Ctx,
   Int,
 } from "type-graphql";
-import { compare, hash } from "bcryptjs";
-import { User } from "../models/User.model";
-import { MyContext } from "src/context";
 import {
   createAccessToken,
   createRefreshToken,
   sendRefreshToken,
 } from "../auth";
+import { compare, hash } from "bcryptjs";
+import { User } from "../models/User.model";
+import { MyContext } from "src/context";
 
 @ObjectType()
 class LoginResponse {
@@ -29,6 +29,13 @@ export class UserResolver {
   async users() {
     const users = await User.findAll();
     return users;
+  }
+
+  @Mutation(() => Boolean)
+  async logout(@Ctx() { res }: MyContext) {
+    sendRefreshToken(res, "");
+
+    return true;
   }
 
   @Mutation(() => Boolean)

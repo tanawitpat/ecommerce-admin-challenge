@@ -39,6 +39,7 @@ export type Product = {
 
 export type Mutation = {
    __typename?: 'Mutation';
+  logout: Scalars['Boolean'];
   revokeRefreshTokensForUser: Scalars['Boolean'];
   register: Scalars['Boolean'];
   login: LoginResponse;
@@ -69,7 +70,7 @@ export type MutationLoginArgs = {
 export type MutationCreateProductArgs = {
   imagePath: Scalars['String'];
   price: Scalars['Float'];
-  descirption: Scalars['String'];
+  description: Scalars['String'];
   name: Scalars['String'];
 };
 
@@ -77,7 +78,7 @@ export type MutationCreateProductArgs = {
 export type MutationUpdateProductArgs = {
   imagePath: Scalars['String'];
   price: Scalars['Float'];
-  descirption: Scalars['String'];
+  description: Scalars['String'];
   name: Scalars['String'];
   id: Scalars['Float'];
 };
@@ -125,6 +126,19 @@ export type ProductsQuery = (
   )> }
 );
 
+export type CreateProductMutationVariables = {
+  name: Scalars['String'];
+  description: Scalars['String'];
+  price: Scalars['Float'];
+  imagePath: Scalars['String'];
+};
+
+
+export type CreateProductMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'createProduct'>
+);
+
 export type UsersQueryVariables = {};
 
 
@@ -134,6 +148,14 @@ export type UsersQuery = (
     { __typename?: 'User' }
     & Pick<User, 'id' | 'email'>
   )> }
+);
+
+export type LogoutMutationVariables = {};
+
+
+export type LogoutMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'logout'>
 );
 
 
@@ -201,7 +223,7 @@ export type PingQueryHookResult = ReturnType<typeof usePingQuery>;
 export type PingLazyQueryHookResult = ReturnType<typeof usePingLazyQuery>;
 export type PingQueryResult = ApolloReactCommon.QueryResult<PingQuery, PingQueryVariables>;
 export const ProductsDocument = gql`
-    query products {
+    query Products {
   products {
     id
     name
@@ -236,8 +258,41 @@ export function useProductsLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHoo
 export type ProductsQueryHookResult = ReturnType<typeof useProductsQuery>;
 export type ProductsLazyQueryHookResult = ReturnType<typeof useProductsLazyQuery>;
 export type ProductsQueryResult = ApolloReactCommon.QueryResult<ProductsQuery, ProductsQueryVariables>;
+export const CreateProductDocument = gql`
+    mutation CreateProduct($name: String!, $description: String!, $price: Float!, $imagePath: String!) {
+  createProduct(name: $name, description: $description, price: $price, imagePath: $imagePath)
+}
+    `;
+export type CreateProductMutationFn = ApolloReactCommon.MutationFunction<CreateProductMutation, CreateProductMutationVariables>;
+
+/**
+ * __useCreateProductMutation__
+ *
+ * To run a mutation, you first call `useCreateProductMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateProductMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createProductMutation, { data, loading, error }] = useCreateProductMutation({
+ *   variables: {
+ *      name: // value for 'name'
+ *      description: // value for 'description'
+ *      price: // value for 'price'
+ *      imagePath: // value for 'imagePath'
+ *   },
+ * });
+ */
+export function useCreateProductMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<CreateProductMutation, CreateProductMutationVariables>) {
+        return ApolloReactHooks.useMutation<CreateProductMutation, CreateProductMutationVariables>(CreateProductDocument, baseOptions);
+      }
+export type CreateProductMutationHookResult = ReturnType<typeof useCreateProductMutation>;
+export type CreateProductMutationResult = ApolloReactCommon.MutationResult<CreateProductMutation>;
+export type CreateProductMutationOptions = ApolloReactCommon.BaseMutationOptions<CreateProductMutation, CreateProductMutationVariables>;
 export const UsersDocument = gql`
-    query users {
+    query Users {
   users {
     id
     email
@@ -269,3 +324,32 @@ export function useUsersLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOp
 export type UsersQueryHookResult = ReturnType<typeof useUsersQuery>;
 export type UsersLazyQueryHookResult = ReturnType<typeof useUsersLazyQuery>;
 export type UsersQueryResult = ApolloReactCommon.QueryResult<UsersQuery, UsersQueryVariables>;
+export const LogoutDocument = gql`
+    mutation Logout {
+  logout
+}
+    `;
+export type LogoutMutationFn = ApolloReactCommon.MutationFunction<LogoutMutation, LogoutMutationVariables>;
+
+/**
+ * __useLogoutMutation__
+ *
+ * To run a mutation, you first call `useLogoutMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useLogoutMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [logoutMutation, { data, loading, error }] = useLogoutMutation({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useLogoutMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<LogoutMutation, LogoutMutationVariables>) {
+        return ApolloReactHooks.useMutation<LogoutMutation, LogoutMutationVariables>(LogoutDocument, baseOptions);
+      }
+export type LogoutMutationHookResult = ReturnType<typeof useLogoutMutation>;
+export type LogoutMutationResult = ApolloReactCommon.MutationResult<LogoutMutation>;
+export type LogoutMutationOptions = ApolloReactCommon.BaseMutationOptions<LogoutMutation, LogoutMutationVariables>;

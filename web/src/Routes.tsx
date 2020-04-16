@@ -42,7 +42,11 @@ const PrivateRoute: React.FC<RouteProps> = ({
     <Route
       {...rest}
       render={(routeProps) =>
-        accessToken ? <RouteComponent {...routeProps} /> : <Redirect to={"/"} />
+        accessToken ? (
+          <RouteComponent {...routeProps} />
+        ) : (
+          <Redirect to={"/login"} />
+        )
       }
     />
   );
@@ -52,7 +56,8 @@ export const Routes: React.FC = () => {
   return (
     <BrowserRouter>
       <Switch>
-        <PublicRoute exact path="/" component={Login} />
+        <Redirect exact from="/" to="/login" />
+        <PublicRoute exact path="/login" component={Login} />
         <PrivateRoute exact path="/products" component={Products} />
       </Switch>
     </BrowserRouter>

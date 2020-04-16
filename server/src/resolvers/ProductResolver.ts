@@ -1,18 +1,21 @@
-import { Resolver, Mutation, Arg, Query } from "type-graphql";
+import { Resolver, Mutation, Arg, Query, UseMiddleware } from "type-graphql";
 import { Product } from "../models/Product.model";
+import { isAuth } from "../isAuth";
 
 @Resolver()
 export class ProductResolver {
   @Query(() => [Product])
+  @UseMiddleware(isAuth)
   async products() {
     const products = await Product.findAll();
     return products;
   }
 
   @Mutation(() => Boolean)
+  @UseMiddleware(isAuth)
   async createProduct(
     @Arg("name") name: string,
-    @Arg("descirption") description: string,
+    @Arg("description") description: string,
     @Arg("price") price: number,
     @Arg("imagePath") imagePath: string
   ) {
@@ -34,10 +37,11 @@ export class ProductResolver {
   }
 
   @Mutation(() => [Product])
+  @UseMiddleware(isAuth)
   async updateProduct(
     @Arg("id") id: number,
     @Arg("name") name: string,
-    @Arg("descirption") description: string,
+    @Arg("description") description: string,
     @Arg("price") price: number,
     @Arg("imagePath") imagePath: string
   ) {
@@ -59,6 +63,7 @@ export class ProductResolver {
   }
 
   @Mutation(() => Boolean)
+  @UseMiddleware(isAuth)
   async deleteProduct(@Arg("id") id: number) {
     try {
       const productId = await Product.destroy({

@@ -1,6 +1,10 @@
-query users {
+query Users {
   users {
     id
     email
   }
+}
+
+mutation Logout {
+  logout
 }

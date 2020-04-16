@@ -1,4 +1,4 @@
-query products {
+query Products {
   products {
     id
     name
@@ -6,4 +6,18 @@ query products {
     imagePath
     description
   }
+}
+
+mutation CreateProduct(
+  $name: String!
+  $description: String!
+  $price: Float!
+  $imagePath: String!
+) {
+  createProduct(
+    name: $name
+    description: $description
+    price: $price
+    imagePath: $imagePath
+  )
 }
