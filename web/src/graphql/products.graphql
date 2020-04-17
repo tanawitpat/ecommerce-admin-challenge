@@ -8,6 +8,16 @@ query Products {
   }
 }
 
+query Product($id: Float!) {
+  product(id: $id) {
+    id
+    name
+    price
+    imagePath
+    description
+  }
+}
+
 mutation CreateProduct(
   $name: String!
   $description: String!
@@ -20,6 +30,24 @@ mutation CreateProduct(
     price: $price
     imagePath: $imagePath
   )
+}
+
+mutation UpdateProduct(
+  $id: Float!
+  $name: String!
+  $description: String!
+  $price: Float!
+  $imagePath: String!
+) {
+  updateProduct(
+    id: $id
+    name: $name
+    description: $description
+    price: $price
+    imagePath: $imagePath
+  ) {
+    id
+  }
 }
 
 mutation DeleteProduct($id: Float!) {

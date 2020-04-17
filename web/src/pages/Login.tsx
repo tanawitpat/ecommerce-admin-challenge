@@ -168,7 +168,7 @@ export default styled(Login)`
 
       p {
         font-size: 1.8rem;
-        margin: 0 0 1rem;
+        margin: 0;
       }
 
       input {
@@ -181,6 +181,7 @@ export default styled(Login)`
     }
 
     &__title {
+      margin-bottom: 1rem;
       display: flex;
       justify-content: space-between;
 
@@ -191,7 +192,6 @@ export default styled(Login)`
 
       &--error {
         color: #8b0000;
-        font-size: 1.4rem;
       }
     }
   }

@@ -8,6 +8,7 @@ import {
 } from "react-router-dom";
 import Login from "./pages/Login";
 import Products from "./pages/Products";
+import Product from "./pages/Product";
 import { getAccessToken } from "./accessToken";
 import AuthHeader from "./components/AuthHeader";
 
@@ -63,6 +64,7 @@ export const Routes: React.FC = () => {
         <Redirect exact from="/" to="/login" />
         <PublicRoute exact path="/login" component={Login} />
         <PrivateRoute exact path="/products" component={Products} />
+        <PrivateRoute path="/product/:productId" component={Product} />
       </Switch>
     </BrowserRouter>
   );

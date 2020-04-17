@@ -15,6 +15,7 @@ const Products: React.FC<Props> = ({ className }) => {
   const { data, loading } = useProductsQuery();
   const [createProduct] = useCreateProductMutation();
   const [deleteProduct] = useDeleteProductMutation();
+
   const onDeleteProduct = async (id: number) => {
     try {
       await deleteProduct({
@@ -62,7 +63,7 @@ const Products: React.FC<Props> = ({ className }) => {
             <td>{product.name}</td>
             <td>{product.price}</td>
             <td className="products__table--actions">
-              <Link to={`/products/${product.id}`}>Edit</Link>
+              <Link to={`/product/${product.id}`}>Edit</Link>
               <p onClick={() => onDeleteProduct(product.id)}>Delete</p>
             </td>
           </tr>

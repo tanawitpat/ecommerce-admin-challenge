@@ -1,5 +1,5 @@
 import React from "react";
-import { RouteComponentProps } from "react-router-dom";
+import { RouteComponentProps, Link } from "react-router-dom";
 import styled from "styled-components";
 import { useLogoutMutation } from "../generated/graphql";
 import { setAccessToken } from "../accessToken";
@@ -12,11 +12,21 @@ const StyledHeader = styled.div`
   padding: 1rem;
   display: flex;
   justify-content: flex-end;
-  font-weight: bold;
 
-  .logout {
+  > * {
+    margin: 1rem;
     font-size: 2rem;
     cursor: pointer;
+    text-decoration: none;
+    color: black;
+
+    &:hover {
+      font-weight: bold;
+    }
+
+    &:not(:last-child) {
+      margin-right: 4rem;
+    }
   }
 `;
 
@@ -34,9 +44,8 @@ const AuthHeader: React.FC<RouteComponentProps> = ({ history }) => {
 
   return (
     <StyledHeader>
-      <p onClick={onLogout} className="logout">
-        Logout
-      </p>
+      <Link to="/">Home</Link>
+      <p onClick={onLogout}>Logout</p>
     </StyledHeader>
   );
 };

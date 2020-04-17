@@ -11,6 +11,17 @@ export class ProductResolver {
     return products;
   }
 
+  @Query(() => Product)
+  @UseMiddleware(isAuth)
+  async product(@Arg("id") id: number) {
+    const product = await Product.findOne({
+      where: {
+        id,
+      },
+    });
+    return product;
+  }
+
   @Mutation(() => Boolean)
   @UseMiddleware(isAuth)
   async createProduct(
