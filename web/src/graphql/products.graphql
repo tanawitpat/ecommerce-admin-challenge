@@ -21,3 +21,7 @@ mutation CreateProduct(
     imagePath: $imagePath
   )
 }
+
+mutation DeleteProduct($id: Float!) {
+  deleteProduct(id: $id)
+}

@@ -9,6 +9,7 @@ import {
 import Login from "./pages/Login";
 import Products from "./pages/Products";
 import { getAccessToken } from "./accessToken";
+import AuthHeader from "./components/AuthHeader";
 
 const PublicRoute: React.FC<RouteProps> = ({
   component: RouteComponent,
@@ -43,7 +44,10 @@ const PrivateRoute: React.FC<RouteProps> = ({
       {...rest}
       render={(routeProps) =>
         accessToken ? (
-          <RouteComponent {...routeProps} />
+          <>
+            <Route component={AuthHeader} />
+            <RouteComponent {...routeProps} />
+          </>
         ) : (
           <Redirect to={"/login"} />
         )

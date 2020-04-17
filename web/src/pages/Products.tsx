@@ -1,96 +1,33 @@
 import React, { useEffect } from "react";
-import { RouteComponentProps } from "react-router-dom";
-import { useTable, Column, CellProps } from "react-table";
+import { RouteComponentProps, Link } from "react-router-dom";
 import {
   useProductsQuery,
   useCreateProductMutation,
-  useLogoutMutation,
+  useDeleteProductMutation,
 } from "../generated/graphql";
 import styled from "styled-components";
-import { setAccessToken } from "../accessToken";
 
 interface Props extends RouteComponentProps {
   className?: string;
 }
 
-type Data = object;
-
-const Table = ({
-  columns,
-  data,
-}: {
-  columns: Column<Data>[];
-  data: Data[];
-}) => {
-  const {
-    getTableProps,
-    getTableBodyProps,
-    headerGroups,
-    rows,
-    prepareRow,
-  } = useTable({
-    columns,
-    data,
-  });
-
-  return (
-    <table {...getTableProps()}>
-      <thead>
-        {headerGroups.map((headerGroup) => (
-          <tr {...headerGroup.getHeaderGroupProps()}>
-            {headerGroup.headers.map((column) => (
-              <th {...column.getHeaderProps()}>{column.render("Header")}</th>
-            ))}
-          </tr>
-        ))}
-      </thead>
-      <tbody {...getTableBodyProps()}>
-        {rows.map((row, i) => {
-          prepareRow(row);
-          return (
-            <tr {...row.getRowProps()}>
-              {row.cells.map((cell) => {
-                return <td {...cell.getCellProps()}>{cell.render("Cell")}</td>;
-              })}
-            </tr>
-          );
-        })}
-      </tbody>
-    </table>
-  );
-};
-
-const Products: React.FC<Props> = ({ className, history }) => {
+const Products: React.FC<Props> = ({ className }) => {
   const { data, loading } = useProductsQuery();
-  const [logout] = useLogoutMutation();
-
   const [createProduct] = useCreateProductMutation();
-
-  const columns = React.useMemo(
-    () => [
-      {
-        Header: "Product ID",
-        accessor: "id",
-      },
-      {
-        Header: "Product Name",
-        accessor: "name",
-      },
-      {
-        Header: "Price",
-        accessor: "price",
-      },
-    ],
-    []
-  );
-
-  const onLogout = async () => {
-    const response = await logout();
-    if (response.data && response.data.logout) {
-      setAccessToken("");
-      history.push("/login");
+  const [deleteProduct] = useDeleteProductMutation();
+  const onDeleteProduct = async (id: number) => {
+    try {
+      await deleteProduct({
+        variables: {
+          id,
+        },
+        refetchQueries: ["Products"],
+        awaitRefetchQueries: true,
+      });
+    } catch (err) {
+      console.log("Cannot delete a product");
+      console.log(err);
     }
-    return;
   };
 
   // FOR DEVELOPMENT
@@ -109,18 +46,35 @@ const Products: React.FC<Props> = ({ className, history }) => {
   const productTable = loading ? (
     <p>Loading...</p>
   ) : (
-    <Table columns={columns} data={data?.products!} />
+    <table>
+      <thead>
+        <tr>
+          <th>Product ID</th>
+          <th>Product Name</th>
+          <th>Price</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {data!.products.map((product) => (
+          <tr key={product.id}>
+            <td>{product.id}</td>
+            <td>{product.name}</td>
+            <td>{product.price}</td>
+            <td className="products__table--actions">
+              <Link to={`/products/${product.id}`}>Edit</Link>
+              <p onClick={() => onDeleteProduct(product.id)}>Delete</p>
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
   );
 
   return (
     <div className={className}>
       <div className="products">
-        <div className="products__header">
-          <h1>Products</h1>
-          <p onClick={onLogout} className="products__logout">
-            Logout
-          </p>
-        </div>
+        <h1>Products</h1>
         <div className="products__table">{productTable}</div>
       </div>
     </div>
@@ -132,33 +86,40 @@ const StyledProducts = styled(Products)`
   margin: auto;
 
   .products {
-    padding: 5rem;
+    padding: 2rem 5rem;
 
-    &__header {
-      margin-bottom: 3rem;
-      display: flex;
-      justify-content: space-between;
-
-      > * {
-        display: flex;
-        align-items: center;
-        margin: 0;
-      }
-    }
-
-    &__logout {
-      cursor: pointer;
+    h1 {
+      margin-top: 0;
     }
 
     &__table {
       table {
         margin: auto;
-        border-spacing: 10rem 1rem;
+        border-spacing: 7.5rem 1rem;
       }
 
       td {
         text-align: center;
         vertical-align: middle;
+      }
+
+      &--actions {
+        display: flex;
+
+        a {
+          margin-right: 1.5rem;
+        }
+
+        > * {
+          margin: 0;
+          color: black;
+          text-decoration: none;
+          cursor: pointer;
+
+          &:hover {
+            font-weight: bold;
+          }
+        }
       }
     }
   }
