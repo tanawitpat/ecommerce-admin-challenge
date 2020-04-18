@@ -1,31 +1,49 @@
-# E-commerce Admin Website
+# E-commerce Backoffice Website
 
 ## Background
 
-I found a coding challange to build e-commerce admin-website. I was bored from COVID-19 quarantine so I accepted the challenge.
+I found a coding challange to build e-commerce backoffice website. I was bored from COVID-19 quarantine so I accepted the challenge.
 
 ### Requirement
 
-- Create e-commerce admin-website
+- Create an e-commerce backoffice website
 - Authentication
-- As admin user can (view create update delete) product
-- Deploy to some cloud service (Heroku, Firebase, Netlify, etc)
-- Create Restful-API (or Graphql is plus)
-- Docker is plus (Dockerfile is enough)
+- A user can view, create, update, delete a product.
+- Create Rest API (or GraphQL is a plus)
+- React is required.
+- Styled-components is required.
+- Node.js is required.
+- Express or Koa is required.
+- Sequelize is required.
 
-#### Frontend
-
-- React is required
-- Styled-components is required
-- Mobx or Redux as State Management is required
-- If you using GraphQL (Apollo is plus)
-- Recompose is plus (not required)
-- UI Framework is allow such as Ant Design, Material UI, Bootstrap, etc
-- Responsive is plus
+## Setup
 
 #### Backend
 
-- Node.js is required
-- Express or Koa is required
-- Sequelize is required
-- Authentication by using Passport.js is required
+```bash
+# 1. Install dependecies
+cd server
+yarn install
+
+# 2. Create .env file and paste the following values
+POSTGRES_USERNAME=admin
+POSTGRES_PASSWORD=password
+POSTGRES_DATABASE=ecommerce-admin-challenge
+
+ACCESS_TOKEN_SECRET=<YOUR_ACCESS_TOKEN_SECRET>
+REFRESH_TOKEN_SECRET=<YOUR_REFRESH_TOKEN_SECRET>
+
+# 3. Start the service
+yarn start
+```
+
+#### Frontend
+
+```bash
+# 1. Install dependecies
+cd web
+yarn install
+
+# 2. Start the service
+yarn start
+```
