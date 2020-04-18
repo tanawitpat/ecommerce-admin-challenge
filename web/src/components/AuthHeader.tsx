@@ -1,7 +1,7 @@
 import React from "react";
 import { RouteComponentProps, Link } from "react-router-dom";
 import styled from "styled-components";
-import { useLogoutMutation } from "../generated/graphql";
+import { useLogoutMutation } from "../graphql/types";
 import { setAccessToken } from "../accessToken";
 
 const StyledHeader = styled.div`

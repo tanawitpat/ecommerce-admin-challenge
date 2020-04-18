@@ -10,7 +10,7 @@ import { UserResolver } from "./resolvers/UserResolver";
 import { ProductResolver } from "./resolvers/ProductResolver";
 import { createPostgresConnection } from "./database";
 import { verify } from "jsonwebtoken";
-import { User } from "./models/User.model";
+import { User } from "./models/UserModel";
 import {
   sendRefreshToken,
   createRefreshToken,

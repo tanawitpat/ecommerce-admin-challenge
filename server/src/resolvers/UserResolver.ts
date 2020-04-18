@@ -14,8 +14,8 @@ import {
   sendRefreshToken,
 } from "../auth";
 import { compare, hash } from "bcryptjs";
-import { User } from "../models/User.model";
-import { MyContext } from "src/context";
+import { User } from "../models/UserModel";
+import { Context } from "src/context";
 
 @ObjectType()
 class LoginResponse {
@@ -32,7 +32,7 @@ export class UserResolver {
   }
 
   @Mutation(() => Boolean)
-  async logout(@Ctx() { res }: MyContext) {
+  async logout(@Ctx() { res }: Context) {
     sendRefreshToken(res, "");
 
     return true;
@@ -71,7 +71,7 @@ export class UserResolver {
   async login(
     @Arg("email") email: string,
     @Arg("password") password: string,
-    @Ctx() { res }: MyContext
+    @Ctx() { res }: Context
   ): Promise<LoginResponse> {
     const user = await User.findOne({ where: { email } });
 

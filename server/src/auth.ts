@@ -1,6 +1,6 @@
 import { Response } from "express";
 import { sign } from "jsonwebtoken";
-import { User } from "src/models/User.model";
+import { User } from "src/models/UserModel";
 
 export const createAccessToken = (user: User) => {
   return sign({ userId: user.id }, process.env.ACCESS_TOKEN_SECRET!, {

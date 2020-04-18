@@ -1,5 +1,5 @@
 import { Resolver, Mutation, Arg, Query, UseMiddleware } from "type-graphql";
-import { Product } from "../models/Product.model";
+import { Product } from "../models/ProductModel";
 import { isAuth } from "../isAuth";
 
 @Resolver()

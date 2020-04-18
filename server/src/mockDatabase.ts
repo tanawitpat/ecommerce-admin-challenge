@@ -1,6 +1,6 @@
-import { User } from "./models/User.model";
+import { User } from "./models/UserModel";
 import { hash } from "bcryptjs";
-import { Product } from "./models/Product.model";
+import { Product } from "./models/ProductModel";
 
 const ADMIN_EMAIL = "test@test.com";
 const ADMIN_PASSWORD = "test";

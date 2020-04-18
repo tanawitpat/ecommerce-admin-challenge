@@ -1,10 +1,7 @@
 import React from "react";
 import { RouteComponentProps, Link } from "react-router-dom";
 import styled from "styled-components";
-import {
-  useProductsQuery,
-  useDeleteProductMutation,
-} from "../generated/graphql";
+import { useProductsQuery, useDeleteProductMutation } from "../graphql/types";
 
 interface Props extends RouteComponentProps {
   className?: string;

@@ -1,10 +1,7 @@
 import React from "react";
 import { useParams, RouteComponentProps } from "react-router-dom";
 import styled from "styled-components";
-import {
-  useProductQuery,
-  useUpdateProductMutation,
-} from "../generated/graphql";
+import { useProductQuery, useUpdateProductMutation } from "../graphql/types";
 import { Formik } from "formik";
 import InputBox from "../components/InputBox";
 

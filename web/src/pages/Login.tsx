@@ -2,7 +2,7 @@ import React from "react";
 import { RouteComponentProps } from "react-router-dom";
 import styled from "styled-components";
 import { Formik } from "formik";
-import { useLoginMutation } from "../generated/graphql";
+import { useLoginMutation } from "../graphql/types";
 import { setAccessToken } from "../accessToken";
 
 interface Props extends RouteComponentProps {

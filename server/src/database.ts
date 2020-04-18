@@ -1,6 +1,6 @@
 import { Sequelize, DataTypes } from "sequelize";
-import { User } from "./models/User.model";
-import { Product } from "./models/Product.model";
+import { User } from "./models/UserModel";
+import { Product } from "./models/ProductModel";
 import { mockDatabaseData } from "./mockDatabase";
 
 export const createPostgresConnection = (): void => {

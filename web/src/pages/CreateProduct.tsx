@@ -2,7 +2,7 @@ import React from "react";
 import { RouteComponentProps } from "react-router-dom";
 import styled from "styled-components";
 import { Formik } from "formik";
-import { useCreateProductMutation } from "../generated/graphql";
+import { useCreateProductMutation } from "../graphql/types";
 import InputBox from "../components/InputBox";
 
 export const Product: React.FC<RouteComponentProps> = ({ history }) => {
