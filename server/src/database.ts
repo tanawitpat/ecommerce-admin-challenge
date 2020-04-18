@@ -1,6 +1,7 @@
 import { Sequelize, DataTypes } from "sequelize";
 import { User } from "./models/User.model";
 import { Product } from "./models/Product.model";
+import { mockDatabaseData } from "./mockDatabase";
 
 export const createPostgresConnection = (): void => {
   const database = new Sequelize({
@@ -76,10 +77,18 @@ export const createPostgresConnection = (): void => {
     }
   );
 
-  User.sync({ force: true }).then(() => console.log("User table created"));
-  Product.sync({ force: true }).then(() =>
+  setupDatabase();
+  return;
+};
+
+const setupDatabase = async () => {
+  await User.sync({ force: true }).then(() =>
+    console.log("User table created")
+  );
+  await Product.sync({ force: true }).then(() =>
     console.log("Product table created")
   );
 
-  return;
+  // FOR DEVELOPMENT
+  await mockDatabaseData();
 };

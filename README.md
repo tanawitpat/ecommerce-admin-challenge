@@ -16,6 +16,10 @@ I found a coding challange to build e-commerce backoffice website. I was bored f
 - Express or Koa is required.
 - Sequelize is required.
 
+## Project Overview
+
+![](https://user-images.githubusercontent.com/25366268/79638882-3b766c80-81b2-11ea-8a68-f8c8771fefc3.png)
+
 ## Setup
 
 #### Backend
@@ -47,3 +51,10 @@ yarn install
 # 2. Start the service
 yarn start
 ```
+
+#### Mocked Admin user
+
+- Email: test@test.com
+- Password: test
+
+Note: The mocked admin user has been defined in code (`server/mockDatabase.ts`).

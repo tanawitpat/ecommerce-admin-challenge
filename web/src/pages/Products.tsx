@@ -1,11 +1,10 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { RouteComponentProps, Link } from "react-router-dom";
+import styled from "styled-components";
 import {
   useProductsQuery,
-  useCreateProductMutation,
   useDeleteProductMutation,
 } from "../generated/graphql";
-import styled from "styled-components";
 
 interface Props extends RouteComponentProps {
   className?: string;
@@ -13,7 +12,6 @@ interface Props extends RouteComponentProps {
 
 const Products: React.FC<Props> = ({ className }) => {
   const { data, loading } = useProductsQuery();
-  const [createProduct] = useCreateProductMutation();
   const [deleteProduct] = useDeleteProductMutation();
 
   const onDeleteProduct = async (id: number) => {
@@ -30,19 +28,6 @@ const Products: React.FC<Props> = ({ className }) => {
       console.log(err);
     }
   };
-
-  // FOR DEVELOPMENT
-  useEffect(() => {
-    createProduct({
-      variables: {
-        name: "PRODUCT NAME A",
-        description: "PRODUCT DESCRIPTION A",
-        price: 3000,
-        imagePath: "https://google.com",
-      },
-    });
-  }, []);
-  //
 
   const productTable = loading ? (
     <p>Loading...</p>
@@ -75,7 +60,12 @@ const Products: React.FC<Props> = ({ className }) => {
   return (
     <div className={className}>
       <div className="products">
-        <h1>Products</h1>
+        <div className="products__header">
+          <h1>Products</h1>
+          <Link to="/products/create">
+            <button>Create</button>
+          </Link>
+        </div>
         <div className="products__table">{productTable}</div>
       </div>
     </div>
@@ -89,10 +79,27 @@ const StyledProducts = styled(Products)`
   .products {
     padding: 2rem 5rem;
 
-    h1 {
-      margin-top: 0;
-    }
+    &__header {
+      display: flex;
+      justify-content: space-between;
 
+      h1 {
+        margin-top: 0;
+      }
+
+      a {
+        height: fit-content;
+      }
+
+      button {
+        font-size: 1.8rem;
+        padding: 1rem 2rem;
+        background-color: #32354a;
+        color: white;
+        border: none;
+        cursor: pointer;
+      }
+    }
     &__table {
       table {
         margin: auto;

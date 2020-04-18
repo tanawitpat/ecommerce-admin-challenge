@@ -51,7 +51,6 @@ export class UserResolver {
     @Arg("name") name: string
   ) {
     const hashedPassword = await hash(password, 12);
-
     const user = new User({
       email,
       password: hashedPassword,
