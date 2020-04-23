@@ -52,9 +52,9 @@ yarn install
 yarn start
 ```
 
-#### Mocked Admin user
+#### Mocked admin user
 
 - Email: test@test.com
 - Password: test
 
-Note: The mocked admin user has been defined in code (`server/mockDatabase.ts`).
+Note: The mocked admin user has been defined in code (`server/src/mockDatabase.ts`).
